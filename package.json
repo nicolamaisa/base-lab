@@ -1,0 +1,27 @@
+{
+  "devDependencies": {
+    "@eslint/js": "^9",
+    "@typescript-eslint/eslint-plugin": "^8",
+    "@typescript-eslint/parser": "^8",
+    "dotenv-cli": "^11.0.0",
+    "eslint": "^10.8.0",
+    "eslint-config-prettier": "^10",
+    "eslint-plugin-react-hooks": "^7",
+    "eslint-plugin-react-refresh": "^0.5",
+    "globals": "^17",
+    "kysely-codegen": "^0.20.0",
+    "pg": "^8.20.0",
+    "prettier": "^3",
+    "typescript-eslint": "^8"
+  },
+  "scripts": {
+    "api:dev": "npm --prefix apps/api run dev",
+    "api:build": "npm --prefix apps/api run build",
+    "api:start": "npm --prefix apps/api run start",
+    "api:lint": "npm --prefix apps/api run lint",
+    "api:lint:fix": "npm --prefix apps/api run lint:fix",
+    "api:typecheck": "npm --prefix apps/api run typecheck",
+    "api:format:check": "npm --prefix apps/api run format:check",
+    "db:types": "dotenv -e .env -- kysely-codegen --out-file ./apps/api/src/types/db.types.ts"
+  }
+}

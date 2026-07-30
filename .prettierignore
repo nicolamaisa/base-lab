@@ -1,0 +1,36 @@
+# Dependencies
+node_modules
+
+# Build outputs
+dist
+build
+coverage
+
+# AI Models
+*.gguf
+apps/ai/models/
+
+# Logs
+*.log
+logs
+
+# Environment files
+.env
+.env.*
+.env.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker
+.docker
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# Miscellaneous
+*.package-lock.json

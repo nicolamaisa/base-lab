@@ -1,0 +1,247 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    container_name: panel-api
+    restart: unless-stopped
+    environment:
+      PORT: "3000"
+      NODE_ENV: production
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      REDIS_URL: redis://redis:6379
+      STUDY_ANALYSIS_QUEUE_NAME: study-analysis
+      STUDY_RUNS_QUEUE_NAME: study-runs
+      PERSONA_RESPONSES_QUEUE_NAME: persona-responses
+      JWT_SECRET: ${JWT_SECRET}
+      LOG_LEVEL: info
+      AUTH_COOKIE_NAME: ${AUTH_COOKIE_NAME}
+      GOTRUE_URL: http://auth:9999
+      PUBLIC_API_BASE_URL: ${PUBLIC_API_BASE_URL}
+      RUN_EXPORTS_QUEUE_NAME: run-exports
+      EXPORT_STORAGE_PATH: /app/data/exports
+    volumes:
+      - export-files:/app/data/exports:ro
+    depends_on:
+      auth:
+        condition: service_healthy
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          'node -e ''fetch("http://localhost:3000/health").then(r => r.ok ? process.exit(0) : process.exit(1)).catch(() => process.exit(1))''',
+        ]
+      interval: 10s
+      retries: 3
+    networks:
+      - panel-network
+
+  worker:
+    build:
+      context: .
+      dockerfile: apps/worker/Dockerfile
+    container_name: panel-worker
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      REDIS_URL: redis://redis:6379
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
+      OPENROUTER_APP_URL: ${OPENROUTER_APP_URL}
+      OPENROUTER_APP_TITLE: ${OPENROUTER_APP_TITLE:-Decision Lab}
+      OPENROUTER_ANALYSIS_MODEL: ${OPENROUTER_ANALYSIS_MODEL:-}
+      OPENROUTER_ANALYSIS_FALLBACK_MODEL: ${OPENROUTER_ANALYSIS_FALLBACK_MODEL:-}
+      OPENROUTER_ANALYSIS_MAX_TOKENS: ${OPENROUTER_ANALYSIS_MAX_TOKENS:-5000}
+      OPENROUTER_ANALYSIS_TIMEOUT_MS: ${OPENROUTER_ANALYSIS_TIMEOUT_MS:-300000}
+      OPENROUTER_ANALYSIS_TEMPERATURE: ${OPENROUTER_ANALYSIS_TEMPERATURE:-0.2}
+      OPENROUTER_ANALYSIS_REASONING_EFFORT: ${OPENROUTER_ANALYSIS_REASONING_EFFORT:-low}
+      PERSONA_RESPONSE_WORKER_CONCURRENCY: "2"
+      STUDY_ANALYSIS_QUEUE_NAME: study-analysis
+      ANALYSIS_WORKER_CONCURRENCY: "1"
+      ANALYSIS_RECONCILE_INTERVAL_MS: "30000"
+      MIN_VALID_RESPONSE_RATE: "0.8"
+      LOG_LEVEL: info
+      HEALTH_PORT: "3001"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          'node -e ''fetch("http://localhost:3001/health").then(r => r.ok ? process.exit(0) : process.exit(1)).catch(() => process.exit(1))''',
+        ]
+      interval: 10s
+      retries: 3
+    networks:
+      - panel-network
+
+  frontend:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      args:
+        VITE_API_URL: /api
+        VITE_SUPABASE_URL: ""
+        VITE_SUPABASE_ANON_KEY: ${ANON_KEY}
+        VITE_SITE_URL: ""
+    container_name: panel-frontend
+    restart: unless-stopped
+    environment:
+      API_INTERNAL_URL: http://api:3000
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget",
+          "--no-verbose",
+          "--tries=1",
+          "--spider",
+          "http://127.0.0.1:8080/",
+        ]
+      interval: 10s
+      retries: 3
+    depends_on:
+      - api
+    ports:
+      - "8180:8080"
+    networks:
+      - panel-network
+
+  redis:
+    image: redis:8-alpine
+    container_name: panel-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    volumes:
+      - ./data/redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - panel-network
+
+  exporter-volume-init:
+    image: decision-lab-exporter:local
+    container_name: panel-exporter-volume-init
+    restart: "no"
+    user: "0:0"
+    command:
+      [
+        "sh",
+        "-lc",
+        "mkdir -p /app/data/exports && chown -R app:app /app/data/exports",
+      ]
+    volumes:
+      - export-files:/app/data/exports
+
+  exporter:
+    image: decision-lab-exporter:local
+    build:
+      context: .
+      dockerfile: apps/exporter/Dockerfile
+    container_name: panel-exporter
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      REDIS_URL: redis://redis:6379
+      RUN_EXPORTS_QUEUE_NAME: run-exports
+      EXPORT_STORAGE_PATH: /app/data/exports
+      EXPORT_WORKER_CONCURRENCY: "1"
+      HEALTH_PORT: "3002"
+      LOG_LEVEL: info
+    volumes:
+      - export-files:/app/data/exports
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      exporter-volume-init:
+        condition: service_completed_successfully
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          'node -e ''fetch("http://localhost:3002/health").then(r => r.ok ? process.exit(0) : process.exit(1)).catch(() => process.exit(1))''',
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - panel-network
+
+  # =========================
+  # AUTH (GoTrue)
+  # =========================
+  auth:
+    image: supabase/gotrue:v2.187.0
+    container_name: panel-auth
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      # REQUIRED
+
+      API_EXTERNAL_URL: https://ip222p8000-code.nicolamaisano.net/auth/v1
+
+      GOTRUE_SITE_URL: https://ip222p8000-code.nicolamaisano.net
+
+      GOTRUE_URI_ALLOW_LIST: >-
+        http://10.10.2.222:8000/**,
+          http://localhost:8000/**,
+            https://ip222p8000-code.nicolamaisano.net/**
+
+      GOTRUE_API_HOST: 0.0.0.0
+      GOTRUE_API_PORT: 9999
+
+      GOTRUE_DB_DRIVER: postgres
+      GOTRUE_DB_NAMESPACE: auth
+      GOTRUE_DB_SCHEMA: auth
+      GOTRUE_DB_DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?search_path=auth&sslmode=disable
+      GOTRUE_JWT_SECRET: ${JWT_SECRET}
+      GOTRUE_JWT_EXP: 3600
+      GOTRUE_JWT_ISSUER: api
+
+      # per dev: evita conferme email
+      GOTRUE_MAILER_EXTERNAL_HOSTS: "localhost,webmail.nicolamaisano.net,10.10.2.222,ip222p8000-code.nicolamaisano.net"
+
+      GOTRUE_JWT_ADMIN_ROLES: service_role
+      GOTRUE_JWT_AUD: authenticated
+      GOTRUE_JWT_DEFAULT_GROUP_NAME: authenticated
+
+      GOTRUE_DISABLE_SIGNUP: "true"
+      GOTRUE_EXTERNAL_ANONYMOUS_USERS_ENABLED: "false"
+      GOTRUE_MAILER_AUTOCONFIRM: "true"
+
+    networks:
+      - panel-network
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget",
+          "--no-verbose",
+          "--tries=1",
+          "--spider",
+          "http://localhost:9999/health",
+        ]
+      timeout: 5s
+      interval: 5s
+      retries: 3
+
+volumes:
+  export-files:
+
+networks:
+  panel-network:

@@ -1,0 +1,14 @@
+# .gitignore for xmail project
+.env
+.env.qa
+node_modules
+pg-data
+dist
+# Exclude only root-level docs folder, not apps/docs
+docs-dev
+certs/*.pem
+certs/*.key
+*.pem
+*.gguf
+/tmp/docker-cache
+data
