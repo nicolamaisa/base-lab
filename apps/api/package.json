@@ -10,10 +10,11 @@
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
     "typecheck": "tsc --noEmit -p tsconfig.json",
-    "format:check": "prettier --ignore-path ../../.prettierignore --check ."
+    "format:check": "prettier --ignore-path ../../.prettierignore --check .",
+    "format:write": "prettier --ignore-path ../../.prettierignore --write ."
   },
   "dependencies": {
-    "@hono/node-server": "^1.14.0",
+    "@hono/node-server": "^2.0.12",
     "@hono/swagger-ui": "^0.6.0",
     "@hono/zod-openapi": "^1.2.2",
     "bullmq": "^5.78.1",

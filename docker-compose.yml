@@ -1,27 +1,121 @@
 services:
+  #=========================
+  # KONG
+  #=========================
+  proxy:
+    image: kong:3.8
+    container_name: ${PROJECT_SLUG}-proxy
+    restart: unless-stopped
+    depends_on:
+      auth:
+        condition: service_healthy
+      frontend:
+        condition: service_healthy
+      api:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      KONG_DATABASE: "off"
+      KONG_DECLARATIVE_CONFIG: /tmp/kong.yml
+      KONG_NGINX_WORKER_PROCESSES: "4"
+      KONG_HEADERS: "off"
+      KONG_DNS_ORDER: LAST,A,CNAME
+      KONG_DNS_NOT_FOUND_TTL: "1"
+      KONG_PLUGINS_CORS_CONFIG_ORIGINS: ${KONG_PLUGINS_CORS_CONFIG_ORIGINS}
+      SUPABASE_PUBLISHABLE_KEY: ${SUPABASE_PUBLISHABLE_KEY}
+      SUPABASE_SECRET_KEY: ${SUPABASE_SECRET_KEY}
+      ANON_KEY_ASYMMETRIC: ${ANON_KEY_ASYMMETRIC}
+      SERVICE_ROLE_KEY_ASYMMETRIC: ${SERVICE_ROLE_KEY_ASYMMETRIC}
+    volumes:
+      - ./infra/kong/kong.yml:/home/kong/kong.template.yml:ro
+      - ./infra/kong/entrypoint.sh:/home/kong/kong-entrypoint.sh:ro
+    entrypoint: /home/kong/kong-entrypoint.sh
+    command: ["kong", "docker-start"]
+    networks:
+      - app-network
+    ports:
+      - "${KONG_PROXY_PORT}:8000"
+    healthcheck:
+      test: ["CMD", "kong", "health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  #=========================
+  # DB
+  #=========================
+  db:
+    build:
+      context: .
+      dockerfile: apps/db/Dockerfile
+    container_name: ${PROJECT_SLUG}-db
+    restart: unless-stopped
+    command:
+      [
+        "postgres",
+        "-c",
+        "shared_preload_libraries=pg_cron",
+        "-c",
+        "cron.database_name=${POSTGRES_DB}",
+      ]
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - ./data/postgres:/var/lib/postgresql
+      - ./infra/db/init:/docker-entrypoint-initdb.d:ro
+    ports:
+      - "${POSTGRES_DEV_PORT}:5432" # per debug, non esporre in prod
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - app-network
+
+  db-migrate:
+    image: postgres:18.3-bookworm
+    container_name: ${PROJECT_SLUG}-db-migrate
+    restart: "no"
+    depends_on:
+      db:
+        condition: service_healthy
+      auth:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+    volumes:
+      - ./infra/db:/infra/db:ro
+    command: ["bash", "/infra/db/migrate.sh", "/infra/db/migrations"]
+    networks:
+      - app-network
+
+  # =========================
+  # API
+  # =========================
   api:
     build:
       context: .
       dockerfile: apps/api/Dockerfile
-    container_name: panel-api
+    container_name: ${PROJECT_SLUG}-api
     restart: unless-stopped
     environment:
+      PROJECT_NAME: ${PROJECT_NAME}
+      PROJECT_SLUG: ${PROJECT_SLUG}
       PORT: "3000"
       NODE_ENV: production
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
       REDIS_URL: redis://redis:6379
-      STUDY_ANALYSIS_QUEUE_NAME: study-analysis
-      STUDY_RUNS_QUEUE_NAME: study-runs
-      PERSONA_RESPONSES_QUEUE_NAME: persona-responses
-      JWT_SECRET: ${JWT_SECRET}
+      LLM_GATEWAY_URL: http://llm-gateway:3003
+      BASE_QUEUE_NAME: ${BASE_QUEUE_NAME}
+      LLM_MODEL_PULL_QUEUE_NAME: ${LLM_MODEL_PULL_QUEUE_NAME:-llm-model-pulls}
+      GOTRUE_JWKS_URL: http://auth:9999/.well-known/jwks.json
+      JWT_ISSUER: api
+      JWT_AUDIENCE: authenticated
       LOG_LEVEL: info
-      AUTH_COOKIE_NAME: ${AUTH_COOKIE_NAME}
-      GOTRUE_URL: http://auth:9999
-      PUBLIC_API_BASE_URL: ${PUBLIC_API_BASE_URL}
-      RUN_EXPORTS_QUEUE_NAME: run-exports
-      EXPORT_STORAGE_PATH: /app/data/exports
-    volumes:
-      - export-files:/app/data/exports:ro
     depends_on:
       auth:
         condition: service_healthy
@@ -38,32 +132,32 @@ services:
       interval: 10s
       retries: 3
     networks:
-      - panel-network
+      - app-network
 
+  # =========================
+  # WORKER
+  # =========================
   worker:
     build:
       context: .
       dockerfile: apps/worker/Dockerfile
-    container_name: panel-worker
+    container_name: ${PROJECT_SLUG}-worker
     restart: unless-stopped
     environment:
+      PROJECT_NAME: ${PROJECT_NAME}
+      PROJECT_SLUG: ${PROJECT_SLUG}
       NODE_ENV: production
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
       REDIS_URL: redis://redis:6379
-      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
-      OPENROUTER_APP_URL: ${OPENROUTER_APP_URL}
-      OPENROUTER_APP_TITLE: ${OPENROUTER_APP_TITLE:-Decision Lab}
-      OPENROUTER_ANALYSIS_MODEL: ${OPENROUTER_ANALYSIS_MODEL:-}
-      OPENROUTER_ANALYSIS_FALLBACK_MODEL: ${OPENROUTER_ANALYSIS_FALLBACK_MODEL:-}
-      OPENROUTER_ANALYSIS_MAX_TOKENS: ${OPENROUTER_ANALYSIS_MAX_TOKENS:-5000}
-      OPENROUTER_ANALYSIS_TIMEOUT_MS: ${OPENROUTER_ANALYSIS_TIMEOUT_MS:-300000}
-      OPENROUTER_ANALYSIS_TEMPERATURE: ${OPENROUTER_ANALYSIS_TEMPERATURE:-0.2}
-      OPENROUTER_ANALYSIS_REASONING_EFFORT: ${OPENROUTER_ANALYSIS_REASONING_EFFORT:-low}
-      PERSONA_RESPONSE_WORKER_CONCURRENCY: "2"
-      STUDY_ANALYSIS_QUEUE_NAME: study-analysis
-      ANALYSIS_WORKER_CONCURRENCY: "1"
-      ANALYSIS_RECONCILE_INTERVAL_MS: "30000"
-      MIN_VALID_RESPONSE_RATE: "0.8"
+      BASE_RUN_WORKER_CONCURRENCY: ${BASE_RUN_WORKER_CONCURRENCY:-2}
+      LLM_MODEL_PULL_WORKER_CONCURRENCY: ${LLM_MODEL_PULL_WORKER_CONCURRENCY:-1}
+      BASE_RUNS_RECONCILER_ENABLED: ${BASE_RUNS_RECONCILER_ENABLED:-true}
+      BASE_RUNS_RECONCILE_INTERVAL_MS: ${BASE_RUNS_RECONCILE_INTERVAL_MS:-30000}
+      BASE_RUNS_RECONCILE_BATCH_SIZE: ${BASE_RUNS_RECONCILE_BATCH_SIZE:-100}
+      BASE_QUEUE_NAME: ${BASE_QUEUE_NAME}
+      LLM_MODEL_PULL_QUEUE_NAME: ${LLM_MODEL_PULL_QUEUE_NAME:-llm-model-pulls}
+      LLM_GATEWAY_URL: http://llm-gateway:3003
+
       LOG_LEVEL: info
       HEALTH_PORT: "3001"
     depends_on:
@@ -80,18 +174,20 @@ services:
       interval: 10s
       retries: 3
     networks:
-      - panel-network
+      - app-network
 
+  # =========================
+  # FRONTEND
+  # =========================
   frontend:
     build:
       context: .
       dockerfile: apps/web/Dockerfile
       args:
         VITE_API_URL: /api
-        VITE_SUPABASE_URL: ""
-        VITE_SUPABASE_ANON_KEY: ${ANON_KEY}
-        VITE_SITE_URL: ""
-    container_name: panel-frontend
+        VITE_SUPABASE_URL: ${PUBLIC_URL:-http://localhost:8000}
+        VITE_SUPABASE_PUBLISHABLE_KEY: ${SUPABASE_PUBLISHABLE_KEY}
+    container_name: ${PROJECT_SLUG}-frontend
     restart: unless-stopped
     environment:
       API_INTERNAL_URL: http://api:3000
@@ -108,15 +204,17 @@ services:
       interval: 10s
       retries: 3
     depends_on:
-      - api
-    ports:
-      - "8180:8080"
+      api:
+        condition: service_healthy
     networks:
-      - panel-network
+      - app-network
 
+  # =========================
+  # REDIS
+  # =========================
   redis:
     image: redis:8-alpine
-    container_name: panel-redis
+    container_name: ${PROJECT_SLUG}-redis
     restart: unless-stopped
     command: redis-server --appendonly yes
     volumes:
@@ -127,65 +225,86 @@ services:
       timeout: 5s
       retries: 10
     networks:
-      - panel-network
+      - app-network
 
-  exporter-volume-init:
-    image: decision-lab-exporter:local
-    container_name: panel-exporter-volume-init
-    restart: "no"
-    user: "0:0"
-    command:
-      [
-        "sh",
-        "-lc",
-        "mkdir -p /app/data/exports && chown -R app:app /app/data/exports",
-      ]
-    volumes:
-      - export-files:/app/data/exports
-
-  exporter:
-    image: decision-lab-exporter:local
+  #=========================
+  # LLM GATEWAY
+  #=========================
+  llm-gateway:
     build:
       context: .
-      dockerfile: apps/exporter/Dockerfile
-    container_name: panel-exporter
+      dockerfile: apps/llm-gateway/Dockerfile
+    container_name: ${PROJECT_SLUG}-llm-gateway
     restart: unless-stopped
     environment:
+      PROJECT_NAME: ${PROJECT_NAME}
+      PROJECT_SLUG: ${PROJECT_SLUG}
       NODE_ENV: production
-      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
-      REDIS_URL: redis://redis:6379
-      RUN_EXPORTS_QUEUE_NAME: run-exports
-      EXPORT_STORAGE_PATH: /app/data/exports
-      EXPORT_WORKER_CONCURRENCY: "1"
-      HEALTH_PORT: "3002"
+      PORT: "3003"
       LOG_LEVEL: info
-    volumes:
-      - export-files:/app/data/exports
-    depends_on:
-      db:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-      exporter-volume-init:
-        condition: service_completed_successfully
+
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://ollama:11434/v1}
+      OLLAMA_DEFAULT_MODEL: ${OLLAMA_DEFAULT_MODEL:-}
+
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-}
+      OPENROUTER_BASE_URL: ${OPENROUTER_BASE_URL:-https://openrouter.ai/api/v1}
+      OPENROUTER_APP_URL: ${OPENROUTER_APP_URL}
+      OPENROUTER_APP_TITLE: ${OPENROUTER_APP_TITLE:-Base Lab}
+      OPENROUTER_DEFAULT_MODEL: ${OPENROUTER_DEFAULT_MODEL:-}
+
+      LLM_REQUEST_TIMEOUT_MS: ${LLM_REQUEST_TIMEOUT_MS:-300000}
     healthcheck:
       test:
         [
           "CMD-SHELL",
-          'node -e ''fetch("http://localhost:3002/health").then(r => r.ok ? process.exit(0) : process.exit(1)).catch(() => process.exit(1))''',
+          'node -e ''fetch("http://localhost:3003/health").then(r => r.ok ? process.exit(0) : process.exit(1)).catch(() => process.exit(1))''',
         ]
       interval: 10s
       timeout: 5s
       retries: 3
     networks:
-      - panel-network
+      - app-network
+
+  #=========================
+  # OLLAMA
+  #=========================
+  ollama:
+    image: ollama/ollama:rocm #change to ollama/ollama:latest for non-rocm version
+    container_name: ${PROJECT_SLUG}-ollama
+    restart: unless-stopped
+    devices:
+      - /dev/kfd:/dev/kfd
+      - /dev/dri:/dev/dri
+      - /dev/accel:/dev/accel
+    environment:
+      - HSA_OVERRIDE_GFX_VERSION=11.0.0
+      - OLLAMA_KEEP_ALIVE=10m
+      - OLLAMA_NUM_PARALLEL=1
+      - OLLAMA_MAX_LOADED_MODELS=1
+      - OLLAMA_IGPU_ENABLE=1
+      - OLLAMA_NO_CLOUD=true
+      - OLLAMA_VULKAN=false
+    deploy:
+      resources:
+        limits:
+          cpus: "4.0" # Limita a 4 core fisici
+          memory: 10G # Limita la RAM a 10GB
+    volumes:
+      - ./data/ollama:/root/.ollama
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+    networks:
+      - app-network
 
   # =========================
   # AUTH (GoTrue)
   # =========================
   auth:
     image: supabase/gotrue:v2.187.0
-    container_name: panel-auth
+    container_name: ${PROJECT_SLUG}-auth
     restart: unless-stopped
     depends_on:
       db:
@@ -193,14 +312,9 @@ services:
     environment:
       # REQUIRED
 
-      API_EXTERNAL_URL: https://ip222p8000-code.nicolamaisano.net/auth/v1
-
-      GOTRUE_SITE_URL: https://ip222p8000-code.nicolamaisano.net
-
-      GOTRUE_URI_ALLOW_LIST: >-
-        http://10.10.2.222:8000/**,
-          http://localhost:8000/**,
-            https://ip222p8000-code.nicolamaisano.net/**
+      API_EXTERNAL_URL: ${AUTH_EXTERNAL_URL:-http://localhost:8000/auth/v1}
+      GOTRUE_SITE_URL: ${PUBLIC_URL:-http://localhost:8000}
+      GOTRUE_URI_ALLOW_LIST: ${GOTRUE_URI_ALLOW_LIST:-http://localhost:8000/**}
 
       GOTRUE_API_HOST: 0.0.0.0
       GOTRUE_API_PORT: 9999
@@ -210,11 +324,12 @@ services:
       GOTRUE_DB_SCHEMA: auth
       GOTRUE_DB_DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?search_path=auth&sslmode=disable
       GOTRUE_JWT_SECRET: ${JWT_SECRET}
+      GOTRUE_JWT_KEYS: ${JWT_KEYS:-[]}
       GOTRUE_JWT_EXP: 3600
       GOTRUE_JWT_ISSUER: api
 
       # per dev: evita conferme email
-      GOTRUE_MAILER_EXTERNAL_HOSTS: "localhost,webmail.nicolamaisano.net,10.10.2.222,ip222p8000-code.nicolamaisano.net"
+      GOTRUE_MAILER_EXTERNAL_HOSTS: "localhost"
 
       GOTRUE_JWT_ADMIN_ROLES: service_role
       GOTRUE_JWT_AUD: authenticated
@@ -225,7 +340,7 @@ services:
       GOTRUE_MAILER_AUTOCONFIRM: "true"
 
     networks:
-      - panel-network
+      - app-network
     healthcheck:
       test:
         [
@@ -240,8 +355,7 @@ services:
       interval: 5s
       retries: 3
 
-volumes:
-  export-files:
-
 networks:
-  panel-network:
+  app-network:
+    name: ${PROJECT_SLUG}-network
+    driver: bridge

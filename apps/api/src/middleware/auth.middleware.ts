@@ -1,5 +1,5 @@
+import { createRemoteJWKSet, jwtVerify } from "jose";
 import { createMiddleware } from "hono/factory";
-import { jwtVerify } from "jose";
 
 import { env } from "@/config/env.js";
 import type { AuthUser, AuthVariables } from "@/types/auth.types.js";
@@ -8,11 +8,9 @@ type JwtPayload = {
   sub?: string;
   email?: string;
   role?: string;
-  aud?: string | string[];
-  iss?: string;
 };
 
-const jwtSecret = new TextEncoder().encode(env.JWT_SECRET);
+const jwks = createRemoteJWKSet(new URL(env.GOTRUE_JWKS_URL));
 
 function extractBearerToken(
   authorizationHeader: string | undefined
@@ -46,10 +44,10 @@ export const requireAuth = createMiddleware<{
   }
 
   try {
-    const { payload } = await jwtVerify<JwtPayload>(token, jwtSecret, {
-      algorithms: ["HS256"],
-      issuer: "api",
-      audience: "authenticated",
+    const { payload } = await jwtVerify<JwtPayload>(token, jwks, {
+      algorithms: ["ES256"],
+      issuer: env.JWT_ISSUER,
+      audience: env.JWT_AUDIENCE,
     });
 
     if (!payload.sub) {
@@ -69,7 +67,6 @@ export const requireAuth = createMiddleware<{
     };
 
     context.set("user", user);
-
     await next();
   } catch {
     return context.json(

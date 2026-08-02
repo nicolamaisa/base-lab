@@ -19,7 +19,7 @@ const server = serve(
         host: "0.0.0.0",
         port: info.port,
       },
-      "Decision Lab API started"
+      `${env.PROJECT_NAME} API started`
     );
   }
 );

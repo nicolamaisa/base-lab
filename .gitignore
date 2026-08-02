@@ -1,6 +1,6 @@
 # .gitignore for xmail project
 .env
-.env.qa
+.env.auth-backup
 node_modules
 pg-data
 dist

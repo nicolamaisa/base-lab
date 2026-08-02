@@ -1,0 +1,1122 @@
+{
+  "@asteasolutions/zod-to-openapi@8.5.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/asteasolutions/zod-to-openapi",
+    "publisher": "Astea Solutions",
+    "email": "info@asteasolutions.com",
+    "path": "/root/dev/api-base/apps/api/node_modules/@asteasolutions/zod-to-openapi",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/@asteasolutions/zod-to-openapi/LICENSE",
+    "usedInApps": [
+      "api"
+    ]
+  },
+  "@hono/node-server@2.0.12": {
+    "licenses": "MIT",
+    "repository": "https://github.com/honojs/node-server",
+    "publisher": "Yusuke Wada",
+    "email": "yusuke@kamawada.com",
+    "path": "/root/dev/api-base/apps/api/node_modules/@hono/node-server",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/@hono/node-server/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker",
+      "llm-gateway"
+    ]
+  },
+  "@hono/swagger-ui@0.6.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/honojs/middleware",
+    "path": "/root/dev/api-base/apps/api/node_modules/@hono/swagger-ui",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/@hono/swagger-ui/README.md",
+    "usedInApps": [
+      "api"
+    ]
+  },
+  "@hono/zod-openapi@1.4.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/honojs/middleware",
+    "path": "/root/dev/api-base/apps/api/node_modules/@hono/zod-openapi",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/@hono/zod-openapi/README.md",
+    "usedInApps": [
+      "api"
+    ]
+  },
+  "@hono/zod-validator@0.8.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/honojs/middleware",
+    "path": "/root/dev/api-base/apps/api/node_modules/@hono/zod-validator",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/@hono/zod-validator/README.md",
+    "usedInApps": [
+      "api"
+    ]
+  },
+  "@ioredis/commands@1.10.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/ioredis/commands",
+    "publisher": "Zihua Li",
+    "email": "i@zihua.li",
+    "path": "/root/dev/api-base/apps/api/node_modules/@ioredis/commands",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/@ioredis/commands/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker"
+    ]
+  },
+  "@ioredis/commands@1.5.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/ioredis/commands",
+    "publisher": "Zihua Li",
+    "email": "i@zihua.li",
+    "path": "/root/dev/api-base/apps/api/node_modules/bullmq/node_modules/@ioredis/commands",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/bullmq/node_modules/@ioredis/commands/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker"
+    ]
+  },
+  "@msgpackr-extract/msgpackr-extract-linux-x64@3.0.4": {
+    "licenses": "MIT",
+    "repository": "https://github.com/kriszyp/msgpackr-extract",
+    "publisher": "Kris Zyp",
+    "path": "/root/dev/api-base/apps/api/node_modules/@msgpackr-extract/msgpackr-extract-linux-x64",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/@msgpackr-extract/msgpackr-extract-linux-x64/README.md",
+    "usedInApps": [
+      "api",
+      "worker"
+    ]
+  },
+  "@opentelemetry/api@1.9.1": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/open-telemetry/opentelemetry-js",
+    "publisher": "OpenTelemetry Authors",
+    "path": "/root/dev/api-base/apps/api/node_modules/@opentelemetry/api",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/@opentelemetry/api/LICENSE",
+    "usedInApps": [
+      "api",
+      "llm-gateway"
+    ]
+  },
+  "@pinojs/redact@0.4.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/pinojs/redact",
+    "publisher": "Matteo Collina",
+    "email": "hello@matteocollina.com",
+    "path": "/root/dev/api-base/apps/api/node_modules/@pinojs/redact",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/@pinojs/redact/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker",
+      "llm-gateway"
+    ]
+  },
+  "atomic-sleep@1.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/davidmarkclements/atomic-sleep",
+    "publisher": "David Mark Clements",
+    "path": "/root/dev/api-base/apps/api/node_modules/atomic-sleep",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/atomic-sleep/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker",
+      "llm-gateway"
+    ]
+  },
+  "bintrees@1.0.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/vadimg/js_bintrees",
+    "publisher": "Vadim Graboys",
+    "email": "dimva13@gmail.com",
+    "path": "/root/dev/api-base/apps/api/node_modules/bintrees",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/bintrees/LICENSE",
+    "usedInApps": [
+      "api",
+      "llm-gateway"
+    ]
+  },
+  "buffer-equal-constant-time@1.0.1": {
+    "licenses": "BSD-3-Clause",
+    "repository": "https://github.com/goinstant/buffer-equal-constant-time",
+    "publisher": "GoInstant Inc., a salesforce.com company",
+    "path": "/root/dev/api-base/apps/api/node_modules/buffer-equal-constant-time",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/buffer-equal-constant-time/LICENSE.txt",
+    "usedInApps": [
+      "api"
+    ]
+  },
+  "bullmq@5.78.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/taskforcesh/bullmq",
+    "publisher": "Taskforce.sh Inc.",
+    "path": "/root/dev/api-base/apps/api/node_modules/bullmq",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/bullmq/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker"
+    ]
+  },
+  "cluster-key-slot@1.1.1": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/Salakar/cluster-key-slot",
+    "publisher": "Mike Diarmid",
+    "email": "mike.diarmid@gmail.com",
+    "path": "/root/dev/api-base/apps/api/node_modules/cluster-key-slot",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/cluster-key-slot/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker"
+    ]
+  },
+  "cron-parser@4.9.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/harrisiirak/cron-parser",
+    "publisher": "Harri Siirak",
+    "path": "/root/dev/api-base/apps/api/node_modules/cron-parser",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/cron-parser/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker"
+    ]
+  },
+  "debug@4.4.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/debug-js/debug",
+    "publisher": "Josh Junon",
+    "path": "/root/dev/api-base/apps/api/node_modules/debug",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/debug/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker"
+    ]
+  },
+  "denque@2.1.0": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/invertase/denque",
+    "publisher": "Invertase",
+    "email": "oss@invertase.io",
+    "path": "/root/dev/api-base/apps/api/node_modules/denque",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/denque/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker"
+    ]
+  },
+  "detect-libc@2.1.2": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/lovell/detect-libc",
+    "publisher": "Lovell Fuller",
+    "email": "npm@lovell.info",
+    "path": "/root/dev/api-base/apps/api/node_modules/detect-libc",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/detect-libc/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker"
+    ]
+  },
+  "ecdsa-sig-formatter@1.0.11": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/Brightspace/node-ecdsa-sig-formatter",
+    "publisher": "D2L Corporation",
+    "path": "/root/dev/api-base/apps/api/node_modules/ecdsa-sig-formatter",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/ecdsa-sig-formatter/LICENSE",
+    "usedInApps": [
+      "api"
+    ]
+  },
+  "hono@4.12.33": {
+    "licenses": "MIT",
+    "repository": "https://github.com/honojs/hono",
+    "publisher": "Yusuke Wada",
+    "email": "yusuke@kamawada.com",
+    "path": "/root/dev/api-base/apps/api/node_modules/hono",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/hono/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker",
+      "llm-gateway"
+    ]
+  },
+  "html-entities@2.6.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/mdevils/html-entities",
+    "publisher": "Marat Dulin",
+    "email": "mdevils@yandex.ru",
+    "path": "/root/dev/api-base/apps/api/node_modules/html-entities",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/html-entities/LICENSE",
+    "usedInApps": [
+      "api"
+    ]
+  },
+  "ioredis@5.10.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/luin/ioredis",
+    "publisher": "Zihua Li",
+    "email": "i@zihua.li",
+    "path": "/root/dev/api-base/apps/api/node_modules/bullmq/node_modules/ioredis",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/bullmq/node_modules/ioredis/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker"
+    ]
+  },
+  "ioredis@5.11.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/luin/ioredis",
+    "publisher": "Zihua Li",
+    "email": "i@zihua.li",
+    "path": "/root/dev/api-base/apps/api/node_modules/ioredis",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/ioredis/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker"
+    ]
+  },
+  "jose@5.10.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/panva/jose",
+    "publisher": "Filip Skokan",
+    "email": "panva.ip@gmail.com",
+    "path": "/root/dev/api-base/apps/api/node_modules/jose",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/jose/LICENSE.md",
+    "usedInApps": [
+      "api"
+    ]
+  },
+  "jsonwebtoken@9.0.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/auth0/node-jsonwebtoken",
+    "publisher": "auth0",
+    "path": "/root/dev/api-base/apps/api/node_modules/jsonwebtoken",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/jsonwebtoken/LICENSE",
+    "usedInApps": [
+      "api"
+    ]
+  },
+  "jwa@2.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/brianloveswords/node-jwa",
+    "publisher": "Brian J. Brennan",
+    "email": "brianloveswords@gmail.com",
+    "path": "/root/dev/api-base/apps/api/node_modules/jwa",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/jwa/LICENSE",
+    "usedInApps": [
+      "api"
+    ]
+  },
+  "jws@4.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/brianloveswords/node-jws",
+    "publisher": "Brian J Brennan",
+    "path": "/root/dev/api-base/apps/api/node_modules/jws",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/jws/LICENSE",
+    "usedInApps": [
+      "api"
+    ]
+  },
+  "kysely@0.28.17": {
+    "licenses": "MIT",
+    "repository": "https://github.com/kysely-org/kysely",
+    "publisher": "Sami Koskimäki",
+    "email": "sami@jakso.me",
+    "path": "/root/dev/api-base/apps/api/node_modules/kysely",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/kysely/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker"
+    ]
+  },
+  "lodash.defaults@4.2.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/lodash/lodash",
+    "publisher": "John-David Dalton",
+    "email": "john.david.dalton@gmail.com",
+    "path": "/root/dev/api-base/apps/api/node_modules/lodash.defaults",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/lodash.defaults/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker"
+    ]
+  },
+  "lodash.includes@4.3.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/lodash/lodash",
+    "publisher": "John-David Dalton",
+    "email": "john.david.dalton@gmail.com",
+    "path": "/root/dev/api-base/apps/api/node_modules/lodash.includes",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/lodash.includes/LICENSE",
+    "usedInApps": [
+      "api"
+    ]
+  },
+  "lodash.isarguments@3.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/lodash/lodash",
+    "publisher": "John-David Dalton",
+    "email": "john.david.dalton@gmail.com",
+    "path": "/root/dev/api-base/apps/api/node_modules/lodash.isarguments",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/lodash.isarguments/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker"
+    ]
+  },
+  "lodash.isboolean@3.0.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/lodash/lodash",
+    "publisher": "John-David Dalton",
+    "email": "john.david.dalton@gmail.com",
+    "path": "/root/dev/api-base/apps/api/node_modules/lodash.isboolean",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/lodash.isboolean/LICENSE",
+    "usedInApps": [
+      "api"
+    ]
+  },
+  "lodash.isinteger@4.0.4": {
+    "licenses": "MIT",
+    "repository": "https://github.com/lodash/lodash",
+    "publisher": "John-David Dalton",
+    "email": "john.david.dalton@gmail.com",
+    "path": "/root/dev/api-base/apps/api/node_modules/lodash.isinteger",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/lodash.isinteger/LICENSE",
+    "usedInApps": [
+      "api"
+    ]
+  },
+  "lodash.isnumber@3.0.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/lodash/lodash",
+    "publisher": "John-David Dalton",
+    "email": "john.david.dalton@gmail.com",
+    "path": "/root/dev/api-base/apps/api/node_modules/lodash.isnumber",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/lodash.isnumber/LICENSE",
+    "usedInApps": [
+      "api"
+    ]
+  },
+  "lodash.isplainobject@4.0.6": {
+    "licenses": "MIT",
+    "repository": "https://github.com/lodash/lodash",
+    "publisher": "John-David Dalton",
+    "email": "john.david.dalton@gmail.com",
+    "path": "/root/dev/api-base/apps/api/node_modules/lodash.isplainobject",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/lodash.isplainobject/LICENSE",
+    "usedInApps": [
+      "api"
+    ]
+  },
+  "lodash.isstring@4.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/lodash/lodash",
+    "publisher": "John-David Dalton",
+    "email": "john.david.dalton@gmail.com",
+    "path": "/root/dev/api-base/apps/api/node_modules/lodash.isstring",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/lodash.isstring/LICENSE",
+    "usedInApps": [
+      "api"
+    ]
+  },
+  "lodash.once@4.1.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/lodash/lodash",
+    "publisher": "John-David Dalton",
+    "email": "john.david.dalton@gmail.com",
+    "path": "/root/dev/api-base/apps/api/node_modules/lodash.once",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/lodash.once/LICENSE",
+    "usedInApps": [
+      "api"
+    ]
+  },
+  "luxon@3.7.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/moment/luxon",
+    "publisher": "Isaac Cambron",
+    "path": "/root/dev/api-base/apps/api/node_modules/luxon",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/luxon/LICENSE.md",
+    "usedInApps": [
+      "api",
+      "worker"
+    ]
+  },
+  "ms@2.1.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/vercel/ms",
+    "path": "/root/dev/api-base/apps/api/node_modules/ms",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/ms/license.md",
+    "usedInApps": [
+      "api",
+      "worker"
+    ]
+  },
+  "msgpackr-extract@3.0.4": {
+    "licenses": "MIT",
+    "repository": "https://github.com/kriszyp/msgpackr-extract",
+    "publisher": "Kris Zyp",
+    "path": "/root/dev/api-base/apps/api/node_modules/msgpackr-extract",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/msgpackr-extract/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker"
+    ]
+  },
+  "msgpackr@2.0.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/kriszyp/msgpackr",
+    "publisher": "Kris Zyp",
+    "path": "/root/dev/api-base/apps/api/node_modules/msgpackr",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/msgpackr/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker"
+    ]
+  },
+  "node-abort-controller@3.1.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/southpolesteve/node-abort-controller",
+    "publisher": "Steve Faulkner",
+    "email": "southpolesteve@gmail.com",
+    "path": "/root/dev/api-base/apps/api/node_modules/node-abort-controller",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/node-abort-controller/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker"
+    ]
+  },
+  "node-gyp-build-optional-packages@5.2.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/prebuild/node-gyp-build",
+    "publisher": "Mathias Buus",
+    "path": "/root/dev/api-base/apps/api/node_modules/node-gyp-build-optional-packages",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/node-gyp-build-optional-packages/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker"
+    ]
+  },
+  "on-exit-leak-free@2.1.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/mcollina/on-exit-or-gc",
+    "publisher": "Matteo Collina",
+    "email": "hello@matteocollina.com",
+    "path": "/root/dev/api-base/apps/api/node_modules/on-exit-leak-free",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/on-exit-leak-free/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker",
+      "llm-gateway"
+    ]
+  },
+  "openapi3-ts@4.6.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/metadevpro/openapi3-ts",
+    "publisher": "Pedro J. Molina / Metadev",
+    "path": "/root/dev/api-base/apps/api/node_modules/openapi3-ts",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/openapi3-ts/LICENSE",
+    "usedInApps": [
+      "api"
+    ]
+  },
+  "pg-cloudflare@1.4.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/brianc/node-postgres",
+    "path": "/root/dev/api-base/apps/api/node_modules/pg-cloudflare",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/pg-cloudflare/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker"
+    ]
+  },
+  "pg-connection-string@2.13.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/brianc/node-postgres",
+    "publisher": "Blaine Bublitz",
+    "email": "blaine@iceddev.com",
+    "path": "/root/dev/api-base/apps/api/node_modules/pg-connection-string",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/pg-connection-string/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker"
+    ]
+  },
+  "pg-int8@1.0.1": {
+    "licenses": "ISC",
+    "repository": "https://github.com/charmander/pg-int8",
+    "path": "/root/dev/api-base/apps/api/node_modules/pg-int8",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/pg-int8/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker"
+    ]
+  },
+  "pg-pool@3.14.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/brianc/node-postgres",
+    "publisher": "Brian M. Carlson",
+    "path": "/root/dev/api-base/apps/api/node_modules/pg-pool",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/pg-pool/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker"
+    ]
+  },
+  "pg-protocol@1.14.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/brianc/node-postgres",
+    "path": "/root/dev/api-base/apps/api/node_modules/pg-protocol",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/pg-protocol/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker"
+    ]
+  },
+  "pg-types@2.2.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/brianc/node-pg-types",
+    "publisher": "Brian M. Carlson",
+    "path": "/root/dev/api-base/apps/api/node_modules/pg-types",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/pg-types/README.md",
+    "usedInApps": [
+      "api",
+      "worker"
+    ]
+  },
+  "pg@8.21.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/brianc/node-postgres",
+    "publisher": "Brian Carlson",
+    "email": "brian.m.carlson@gmail.com",
+    "path": "/root/dev/api-base/apps/api/node_modules/pg",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/pg/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker"
+    ]
+  },
+  "pgpass@1.0.5": {
+    "licenses": "MIT",
+    "repository": "https://github.com/hoegaarden/pgpass",
+    "publisher": "Hannes Hörl",
+    "email": "hannes.hoerl+pgpass@snowreporter.com",
+    "path": "/root/dev/api-base/apps/api/node_modules/pgpass",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/pgpass/README.md",
+    "usedInApps": [
+      "api",
+      "worker"
+    ]
+  },
+  "pino-abstract-transport@3.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/pinojs/pino-abstract-transport",
+    "publisher": "Matteo Collina",
+    "email": "hello@matteocollina.com",
+    "path": "/root/dev/api-base/apps/api/node_modules/pino-abstract-transport",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/pino-abstract-transport/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker",
+      "llm-gateway"
+    ]
+  },
+  "pino-std-serializers@7.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/pinojs/pino-std-serializers",
+    "publisher": "James Sumners",
+    "email": "james.sumners@gmail.com",
+    "path": "/root/dev/api-base/apps/api/node_modules/pino-std-serializers",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/pino-std-serializers/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker",
+      "llm-gateway"
+    ]
+  },
+  "pino@10.3.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/pinojs/pino",
+    "publisher": "Matteo Collina",
+    "email": "hello@matteocollina.com",
+    "path": "/root/dev/api-base/apps/api/node_modules/pino",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/pino/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker",
+      "llm-gateway"
+    ]
+  },
+  "postgres-array@2.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/bendrucker/postgres-array",
+    "publisher": "Ben Drucker",
+    "email": "bvdrucker@gmail.com",
+    "path": "/root/dev/api-base/apps/api/node_modules/postgres-array",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/postgres-array/license",
+    "usedInApps": [
+      "api",
+      "worker"
+    ]
+  },
+  "postgres-bytea@1.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/bendrucker/postgres-bytea",
+    "publisher": "Ben Drucker",
+    "email": "bvdrucker@gmail.com",
+    "path": "/root/dev/api-base/apps/api/node_modules/postgres-bytea",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/postgres-bytea/license",
+    "usedInApps": [
+      "api",
+      "worker"
+    ]
+  },
+  "postgres-date@1.0.7": {
+    "licenses": "MIT",
+    "repository": "https://github.com/bendrucker/postgres-date",
+    "publisher": "Ben Drucker",
+    "email": "bvdrucker@gmail.com",
+    "path": "/root/dev/api-base/apps/api/node_modules/postgres-date",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/postgres-date/license",
+    "usedInApps": [
+      "api",
+      "worker"
+    ]
+  },
+  "postgres-interval@1.2.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/bendrucker/postgres-interval",
+    "publisher": "Ben Drucker",
+    "email": "bvdrucker@gmail.com",
+    "path": "/root/dev/api-base/apps/api/node_modules/postgres-interval",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/postgres-interval/license",
+    "usedInApps": [
+      "api",
+      "worker"
+    ]
+  },
+  "process-warning@5.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/fastify/process-warning",
+    "publisher": "Tomas Della Vedova",
+    "path": "/root/dev/api-base/apps/api/node_modules/process-warning",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/process-warning/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker",
+      "llm-gateway"
+    ]
+  },
+  "prom-client@15.1.3": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/siimon/prom-client",
+    "publisher": "Simon Nyberg",
+    "path": "/root/dev/api-base/apps/api/node_modules/prom-client",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/prom-client/LICENSE",
+    "usedInApps": [
+      "api",
+      "llm-gateway"
+    ]
+  },
+  "quick-format-unescaped@4.0.4": {
+    "licenses": "MIT",
+    "repository": "https://github.com/davidmarkclements/quick-format",
+    "publisher": "David Mark Clements",
+    "path": "/root/dev/api-base/apps/api/node_modules/quick-format-unescaped",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/quick-format-unescaped/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker",
+      "llm-gateway"
+    ]
+  },
+  "real-require@0.2.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/pinojs/real-require",
+    "publisher": "Paolo Insogna",
+    "email": "shogun@cowtech.it",
+    "path": "/root/dev/api-base/apps/api/node_modules/real-require",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/real-require/LICENSE.md",
+    "usedInApps": [
+      "api",
+      "worker",
+      "llm-gateway"
+    ]
+  },
+  "real-require@1.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/pinojs/real-require",
+    "publisher": "Paolo Insogna",
+    "email": "shogun@cowtech.it",
+    "path": "/root/dev/api-base/apps/api/node_modules/thread-stream/node_modules/real-require",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/thread-stream/node_modules/real-require/LICENSE.md",
+    "usedInApps": [
+      "api",
+      "worker",
+      "llm-gateway"
+    ]
+  },
+  "redis-errors@1.2.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/NodeRedis/redis-errors",
+    "publisher": "Ruben Bridgewater",
+    "path": "/root/dev/api-base/apps/api/node_modules/redis-errors",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/redis-errors/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker"
+    ]
+  },
+  "redis-parser@3.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/NodeRedis/node-redis-parser",
+    "publisher": "Ruben Bridgewater",
+    "path": "/root/dev/api-base/apps/api/node_modules/redis-parser",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/redis-parser/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker"
+    ]
+  },
+  "safe-buffer@5.2.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/feross/safe-buffer",
+    "publisher": "Feross Aboukhadijeh",
+    "email": "feross@feross.org",
+    "path": "/root/dev/api-base/apps/api/node_modules/safe-buffer",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/safe-buffer/LICENSE",
+    "usedInApps": [
+      "api"
+    ]
+  },
+  "safe-stable-stringify@2.5.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/BridgeAR/safe-stable-stringify",
+    "publisher": "Ruben Bridgewater",
+    "path": "/root/dev/api-base/apps/api/node_modules/safe-stable-stringify",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/safe-stable-stringify/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker",
+      "llm-gateway"
+    ]
+  },
+  "semver@7.8.1": {
+    "licenses": "ISC",
+    "repository": "https://github.com/npm/node-semver",
+    "publisher": "GitHub Inc.",
+    "path": "/root/dev/api-base/apps/api/node_modules/bullmq/node_modules/semver",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/bullmq/node_modules/semver/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker"
+    ]
+  },
+  "semver@7.8.4": {
+    "licenses": "ISC",
+    "repository": "https://github.com/npm/node-semver",
+    "publisher": "GitHub Inc.",
+    "path": "/root/dev/api-base/apps/api/node_modules/semver",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/semver/LICENSE",
+    "usedInApps": [
+      "api"
+    ]
+  },
+  "sonic-boom@4.2.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/pinojs/sonic-boom",
+    "publisher": "Matteo Collina",
+    "email": "hello@matteocollina.com",
+    "path": "/root/dev/api-base/apps/api/node_modules/sonic-boom",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/sonic-boom/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker",
+      "llm-gateway"
+    ]
+  },
+  "split2@4.2.0": {
+    "licenses": "ISC",
+    "repository": "https://github.com/mcollina/split2",
+    "publisher": "Matteo Collina",
+    "email": "hello@matteocollina.com",
+    "path": "/root/dev/api-base/apps/api/node_modules/split2",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/split2/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker",
+      "llm-gateway"
+    ]
+  },
+  "standard-as-callback@2.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/luin/asCallback",
+    "publisher": "luin",
+    "email": "i@zihua.li",
+    "path": "/root/dev/api-base/apps/api/node_modules/standard-as-callback",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/standard-as-callback/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker"
+    ]
+  },
+  "tdigest@0.1.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/welch/tdigest",
+    "publisher": "Will Welch",
+    "email": "welch@quietplease.com",
+    "path": "/root/dev/api-base/apps/api/node_modules/tdigest",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/tdigest/LICENSE",
+    "usedInApps": [
+      "api",
+      "llm-gateway"
+    ]
+  },
+  "thread-stream@4.2.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/mcollina/thread-stream",
+    "publisher": "Matteo Collina",
+    "email": "hello@matteocollina.com",
+    "path": "/root/dev/api-base/apps/api/node_modules/thread-stream",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/thread-stream/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker",
+      "llm-gateway"
+    ]
+  },
+  "tslib@2.8.1": {
+    "licenses": "0BSD",
+    "repository": "https://github.com/Microsoft/tslib",
+    "publisher": "Microsoft Corp.",
+    "path": "/root/dev/api-base/apps/api/node_modules/tslib",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/tslib/LICENSE.txt",
+    "usedInApps": [
+      "api",
+      "worker",
+      "web"
+    ]
+  },
+  "ws@8.21.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/websockets/ws",
+    "publisher": "Einar Otto Stangvik",
+    "email": "einaros@gmail.com",
+    "path": "/root/dev/api-base/apps/api/node_modules/ws",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/ws/LICENSE",
+    "usedInApps": [
+      "api"
+    ]
+  },
+  "xtend@4.0.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/Raynos/xtend",
+    "publisher": "Raynos",
+    "email": "raynos2@gmail.com",
+    "path": "/root/dev/api-base/apps/api/node_modules/xtend",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/xtend/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker"
+    ]
+  },
+  "yaml@2.9.0": {
+    "licenses": "ISC",
+    "repository": "https://github.com/eemeli/yaml",
+    "publisher": "Eemeli Aro",
+    "email": "eemeli@gmail.com",
+    "path": "/root/dev/api-base/apps/api/node_modules/yaml",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/yaml/LICENSE",
+    "usedInApps": [
+      "api"
+    ]
+  },
+  "zod@4.4.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/colinhacks/zod",
+    "publisher": "Colin McDonnell",
+    "email": "zod@colinhacks.com",
+    "path": "/root/dev/api-base/apps/api/node_modules/zod",
+    "licenseFile": "/root/dev/api-base/apps/api/node_modules/zod/LICENSE",
+    "usedInApps": [
+      "api",
+      "worker",
+      "llm-gateway",
+      "web"
+    ]
+  },
+  "openai@6.42.0": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/openai/openai-node",
+    "publisher": "OpenAI",
+    "email": "support@openai.com",
+    "path": "/root/dev/api-base/apps/llm-gateway/node_modules/openai",
+    "licenseFile": "/root/dev/api-base/apps/llm-gateway/node_modules/openai/LICENSE",
+    "usedInApps": [
+      "llm-gateway"
+    ]
+  },
+  "@supabase/auth-js@2.111.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/supabase/supabase-js",
+    "publisher": "Supabase",
+    "path": "/root/dev/api-base/apps/web/node_modules/@supabase/auth-js",
+    "licenseFile": "/root/dev/api-base/apps/web/node_modules/@supabase/auth-js/LICENSE",
+    "usedInApps": [
+      "web"
+    ]
+  },
+  "@supabase/functions-js@2.111.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/supabase/supabase-js",
+    "publisher": "Supabase",
+    "path": "/root/dev/api-base/apps/web/node_modules/@supabase/functions-js",
+    "licenseFile": "/root/dev/api-base/apps/web/node_modules/@supabase/functions-js/LICENSE",
+    "usedInApps": [
+      "web"
+    ]
+  },
+  "@supabase/phoenix@0.4.5": {
+    "licenses": "MIT",
+    "repository": "https://github.com/supabase/phoenix",
+    "publisher": "Chris McCord",
+    "email": "chris@chrismccord.com",
+    "path": "/root/dev/api-base/apps/web/node_modules/@supabase/phoenix",
+    "licenseFile": "/root/dev/api-base/apps/web/node_modules/@supabase/phoenix/LICENSE.md",
+    "usedInApps": [
+      "web"
+    ]
+  },
+  "@supabase/postgrest-js@2.111.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/supabase/supabase-js",
+    "publisher": "Supabase",
+    "path": "/root/dev/api-base/apps/web/node_modules/@supabase/postgrest-js",
+    "licenseFile": "/root/dev/api-base/apps/web/node_modules/@supabase/postgrest-js/LICENSE",
+    "usedInApps": [
+      "web"
+    ]
+  },
+  "@supabase/realtime-js@2.111.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/supabase/supabase-js",
+    "publisher": "Supabase",
+    "path": "/root/dev/api-base/apps/web/node_modules/@supabase/realtime-js",
+    "licenseFile": "/root/dev/api-base/apps/web/node_modules/@supabase/realtime-js/LICENSE",
+    "usedInApps": [
+      "web"
+    ]
+  },
+  "@supabase/storage-js@2.111.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/supabase/supabase-js",
+    "publisher": "Supabase",
+    "path": "/root/dev/api-base/apps/web/node_modules/@supabase/storage-js",
+    "licenseFile": "/root/dev/api-base/apps/web/node_modules/@supabase/storage-js/LICENSE",
+    "usedInApps": [
+      "web"
+    ]
+  },
+  "@supabase/supabase-js@2.111.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/supabase/supabase-js",
+    "publisher": "Supabase",
+    "path": "/root/dev/api-base/apps/web/node_modules/@supabase/supabase-js",
+    "licenseFile": "/root/dev/api-base/apps/web/node_modules/@supabase/supabase-js/LICENSE",
+    "usedInApps": [
+      "web"
+    ]
+  },
+  "@tanstack/query-core@5.101.4": {
+    "licenses": "MIT",
+    "repository": "https://github.com/TanStack/query",
+    "publisher": "tannerlinsley",
+    "path": "/root/dev/api-base/apps/web/node_modules/@tanstack/query-core",
+    "licenseFile": "/root/dev/api-base/apps/web/node_modules/@tanstack/query-core/LICENSE",
+    "usedInApps": [
+      "web"
+    ]
+  },
+  "@tanstack/react-query@5.101.4": {
+    "licenses": "MIT",
+    "repository": "https://github.com/TanStack/query",
+    "publisher": "tannerlinsley",
+    "path": "/root/dev/api-base/apps/web/node_modules/@tanstack/react-query",
+    "licenseFile": "/root/dev/api-base/apps/web/node_modules/@tanstack/react-query/LICENSE",
+    "usedInApps": [
+      "web"
+    ]
+  },
+  "cookie-es@3.1.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/unjs/cookie-es",
+    "path": "/root/dev/api-base/apps/web/node_modules/cookie-es",
+    "licenseFile": "/root/dev/api-base/apps/web/node_modules/cookie-es/LICENSE",
+    "usedInApps": [
+      "web"
+    ]
+  },
+  "iceberg-js@0.8.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/supabase/iceberg-js",
+    "publisher": "mandarini",
+    "path": "/root/dev/api-base/apps/web/node_modules/iceberg-js",
+    "licenseFile": "/root/dev/api-base/apps/web/node_modules/iceberg-js/LICENSE",
+    "usedInApps": [
+      "web"
+    ]
+  },
+  "lucide-react@0.544.0": {
+    "licenses": "ISC",
+    "repository": "https://github.com/lucide-icons/lucide",
+    "publisher": "Eric Fennis",
+    "path": "/root/dev/api-base/apps/web/node_modules/lucide-react",
+    "licenseFile": "/root/dev/api-base/apps/web/node_modules/lucide-react/LICENSE",
+    "usedInApps": [
+      "web"
+    ]
+  },
+  "react-dom@19.2.8": {
+    "licenses": "MIT",
+    "repository": "https://github.com/react/react",
+    "path": "/root/dev/api-base/apps/web/node_modules/react-dom",
+    "licenseFile": "/root/dev/api-base/apps/web/node_modules/react-dom/LICENSE",
+    "usedInApps": [
+      "web"
+    ]
+  },
+  "react-router-dom@7.18.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/remix-run/react-router",
+    "publisher": "Remix Software",
+    "email": "hello@remix.run",
+    "path": "/root/dev/api-base/apps/web/node_modules/react-router-dom",
+    "licenseFile": "/root/dev/api-base/apps/web/node_modules/react-router-dom/LICENSE.md",
+    "usedInApps": [
+      "web"
+    ]
+  },
+  "react-router@8.3.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/remix-run/react-router",
+    "publisher": "Remix Software",
+    "email": "hello@remix.run",
+    "path": "/root/dev/api-base/apps/web/node_modules/react-router",
+    "licenseFile": "/root/dev/api-base/apps/web/node_modules/react-router/LICENSE.md",
+    "usedInApps": [
+      "web"
+    ]
+  },
+  "react@19.2.8": {
+    "licenses": "MIT",
+    "repository": "https://github.com/react/react",
+    "path": "/root/dev/api-base/apps/web/node_modules/react",
+    "licenseFile": "/root/dev/api-base/apps/web/node_modules/react/LICENSE",
+    "usedInApps": [
+      "web"
+    ]
+  },
+  "scheduler@0.27.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/facebook/react",
+    "path": "/root/dev/api-base/apps/web/node_modules/scheduler",
+    "licenseFile": "/root/dev/api-base/apps/web/node_modules/scheduler/LICENSE",
+    "usedInApps": [
+      "web"
+    ]
+  }
+}

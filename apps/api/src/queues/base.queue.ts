@@ -4,11 +4,10 @@ import { env } from "@/config/env.js";
 
 import { bullMqProducerConnection } from "@/lib/bullmq-connection.js";
 
-export const BASE_JOB = "base-response" as const;
+export const BASE_JOB = "base-runs" as const;
 
 type BaseResponseJobData = {
   runId: string;
-  baseId: string;
 };
 
 export const baseQueue = new Queue<BaseResponseJobData>(env.BASE_QUEUE_NAME, {
@@ -37,14 +36,7 @@ export const baseQueue = new Queue<BaseResponseJobData>(env.BASE_QUEUE_NAME, {
   },
 });
 
-function createJobId(runId: string, baseId: string): string {
-  return `${runId}-${baseId}`;
-}
-
-export async function ensureBaseResponseJobs(
-  runId: string,
-  baseIds: string[]
-): Promise<number> {
+export async function ensureBaseRunJob(runId: string): Promise<number> {
   const jobsToAdd: Array<{
     name: typeof BASE_JOB;
 
@@ -55,55 +47,51 @@ export async function ensureBaseResponseJobs(
     };
   }> = [];
 
-  for (const baseId of baseIds) {
-    const jobId = createJobId(runId, baseId);
+  const jobId = runId;
+  const existingJob = await baseQueue.getJob(jobId);
 
-    const existingJob = await baseQueue.getJob(jobId);
+  if (existingJob) {
+    const state = await existingJob.getState();
 
-    if (existingJob) {
-      const state = await existingJob.getState();
-
-      /*
-       * Se il job è ancora realmente
-       * in coda o in esecuzione, non ne
-       * creiamo un duplicato.
-       */
-      if (
-        state === "active" ||
-        state === "waiting" ||
-        state === "delayed" ||
-        state === "prioritized" ||
-        state === "waiting-children"
-      ) {
-        continue;
-      }
-
-      /*
-       * I vecchi job completed/failed
-       * usano lo stesso jobId. Vanno
-       * rimossi prima di poterli
-       * riaccodare.
-       */
-      if (state === "completed" || state === "failed") {
-        await existingJob.remove();
-      } else {
-        continue;
-      }
+    /*
+     * Se il job è ancora realmente
+     * in coda o in esecuzione, non ne
+     * creiamo un duplicato.
+     */
+    if (
+      state === "active" ||
+      state === "waiting" ||
+      state === "delayed" ||
+      state === "prioritized" ||
+      state === "waiting-children"
+    ) {
+      return 0;
     }
 
-    jobsToAdd.push({
-      name: BASE_JOB,
-
-      data: {
-        runId,
-        baseId,
-      },
-
-      opts: {
-        jobId,
-      },
-    });
+    /*
+     * I vecchi job completed/failed
+     * usano lo stesso jobId. Vanno
+     * rimossi prima di poterli
+     * riaccodare.
+     */
+    if (state === "completed" || state === "failed") {
+      await existingJob.remove();
+    } else {
+      return 0;
+    }
   }
+
+  jobsToAdd.push({
+    name: BASE_JOB,
+
+    data: {
+      runId,
+    },
+
+    opts: {
+      jobId,
+    },
+  });
 
   if (jobsToAdd.length > 0) {
     await baseQueue.addBulk(jobsToAdd);
