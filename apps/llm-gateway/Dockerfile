@@ -1,6 +1,6 @@
 # Dockerfile for the API app
 # 1. Stage di Build
-FROM node:25-bookworm-slim AS build
+FROM node:24-bookworm-slim AS build
 WORKDIR /app
 
 # Copiamo i file di configurazione globali dalla root del progetto
@@ -16,7 +16,7 @@ RUN npm ci
 RUN npm run build
 
 # 2. Stage di Runtime
-FROM node:25-bookworm-slim
+FROM node:24-bookworm-slim
 WORKDIR /app
 ENV NODE_ENV=production
 

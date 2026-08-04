@@ -1,4 +1,4 @@
-# .gitignore for xmail project
+# .gitignore for Base Lab
 .env
 .env.auth-backup
 node_modules

@@ -1,5 +1,5 @@
 # Dockerfile per il frontend web di XMail
-FROM node:25-bookworm-slim AS build
+FROM node:24-bookworm-slim AS build
 WORKDIR /app
 
 # Copia file per il build (se il web estende tsconfig.base)

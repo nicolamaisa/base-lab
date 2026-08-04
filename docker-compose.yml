@@ -1,3 +1,23 @@
+x-ollama-common: &ollama-common
+  restart: unless-stopped
+  volumes:
+    - ./data/ollama:/root/.ollama
+  healthcheck:
+    test: ["CMD", "ollama", "list"]
+    interval: 15s
+    timeout: 10s
+    retries: 10
+  networks:
+    app-network:
+      aliases:
+        - ollama
+
+x-ollama-environment: &ollama-environment
+  OLLAMA_KEEP_ALIVE: 10m
+  OLLAMA_NUM_PARALLEL: "1"
+  OLLAMA_MAX_LOADED_MODELS: "1"
+  OLLAMA_NO_CLOUD: "true"
+
 services:
   #=========================
   # KONG
@@ -265,39 +285,79 @@ services:
     networks:
       - app-network
 
-  #=========================
-  # OLLAMA
-  #=========================
-  ollama:
-    image: ollama/ollama:rocm #change to ollama/ollama:latest for non-rocm version
-    container_name: ${PROJECT_SLUG}-ollama
-    restart: unless-stopped
+  # =========================
+  # OLLAMA - CPU
+  # =========================
+  ollama-cpu:
+    <<: *ollama-common
+    profiles:
+      - cpu
+
+    image: ollama/ollama:latest
+    container_name: ${PROJECT_SLUG}-ollama-cpu
+
+    environment:
+      <<: *ollama-environment
+
+    deploy:
+      resources:
+        limits:
+          cpus: "4.0"
+          memory: 10G
+
+  # =========================
+  # OLLAMA - AMD ROCm
+  # =========================
+  ollama-rocm:
+    <<: *ollama-common
+    profiles:
+      - rocm
+
+    image: ollama/ollama:rocm
+    container_name: ${PROJECT_SLUG}-ollama-rocm
+
     devices:
       - /dev/kfd:/dev/kfd
       - /dev/dri:/dev/dri
       - /dev/accel:/dev/accel
+
     environment:
-      - HSA_OVERRIDE_GFX_VERSION=11.0.0
-      - OLLAMA_KEEP_ALIVE=10m
-      - OLLAMA_NUM_PARALLEL=1
-      - OLLAMA_MAX_LOADED_MODELS=1
-      - OLLAMA_IGPU_ENABLE=1
-      - OLLAMA_NO_CLOUD=true
-      - OLLAMA_VULKAN=false
+      <<: *ollama-environment
+      HSA_OVERRIDE_GFX_VERSION: ${HSA_OVERRIDE_GFX_VERSION:-11.0.0}
+      OLLAMA_IGPU_ENABLE: "1"
+      OLLAMA_VULKAN: "false"
+
     deploy:
       resources:
         limits:
-          cpus: "4.0" # Limita a 4 core fisici
-          memory: 10G # Limita la RAM a 10GB
-    volumes:
-      - ./data/ollama:/root/.ollama
-    healthcheck:
-      test: ["CMD", "ollama", "list"]
-      interval: 15s
-      timeout: 10s
-      retries: 10
-    networks:
-      - app-network
+          cpus: "4.0"
+          memory: 10G
+
+  # =========================
+  # OLLAMA - NVIDIA
+  # =========================
+  ollama-nvidia:
+    <<: *ollama-common
+    profiles:
+      - nvidia
+
+    image: ollama/ollama:latest
+    container_name: ${PROJECT_SLUG}-ollama-nvidia
+
+    environment:
+      <<: *ollama-environment
+
+    deploy:
+      resources:
+        limits:
+          cpus: "4.0"
+          memory: 10G
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities:
+                - gpu
 
   # =========================
   # AUTH (GoTrue)

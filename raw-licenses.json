@@ -231,7 +231,6 @@
     "licenseFile": "/root/dev/api-base/apps/api/node_modules/hono/LICENSE",
     "usedInApps": [
       "api",
-      "worker",
       "llm-gateway"
     ]
   },
@@ -937,6 +936,17 @@
       "worker",
       "llm-gateway",
       "web"
+    ]
+  },
+  "hono@4.13.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/honojs/hono",
+    "publisher": "Yusuke Wada",
+    "email": "yusuke@kamawada.com",
+    "path": "/root/dev/api-base/apps/worker/node_modules/hono",
+    "licenseFile": "/root/dev/api-base/apps/worker/node_modules/hono/LICENSE",
+    "usedInApps": [
+      "worker"
     ]
   },
   "openai@6.42.0": {

@@ -1,5 +1,7 @@
 # Base Lab
 
+[![CI](https://github.com/nicolamaisa/base-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/nicolamaisa/base-lab/actions/workflows/ci.yml)
+
 > A local-first LLM control plane built as a containerized TypeScript monorepo.
 
 Base Lab provides one authenticated interface for discovering local and remote
@@ -9,6 +11,22 @@ prompts asynchronously, and inspecting token usage and latency.
 The project is intentionally small enough to understand in one sitting, while
 still demonstrating service boundaries, background processing, persistent job
 state, runtime validation, authentication, and provider abstraction.
+
+**[Product tour](#product-tour) · [Architecture](#architecture) · [Quick start](#quick-start) · [Tests](#tests-and-quality-gates)**
+
+## Product tour
+
+Click any screenshot to open it at full resolution.
+
+| Console                                                                               | Runs                                                                                |
+| ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| [![Base Lab Console](./docs/screenshots/console.png)](./docs/screenshots/console.png) | [![Base Lab run history](./docs/screenshots/runs.png)](./docs/screenshots/runs.png) |
+| Submit asynchronous prompts using locally installed or curated remote models.         | Inspect run status, configuration, prompts, responses, token usage, and latency.    |
+
+| Model management                                                                                           | Usage                                                                                     |
+| ---------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| [![Base Lab model settings](./docs/screenshots/model-settings.png)](./docs/screenshots/model-settings.png) | [![Base Lab usage dashboard](./docs/screenshots/usage.png)](./docs/screenshots/usage.png) |
+| Discover installed Ollama models, enqueue persistent downloads, and curate remote models.                  | Review requests, success rate, token consumption, latency, and provider-level aggregates. |
 
 ## What it demonstrates
 
@@ -101,24 +119,29 @@ recoverable without requiring a live WebSocket connection.
 | `db`          | Application, authentication, run, catalog, pull, and usage data          | PostgreSQL, `pg_cron`                  |
 | `db-migrate`  | Ordered, transactional schema migrations                                 | Bash, `psql`                           |
 | `redis`       | BullMQ queue storage                                                     | Redis                                  |
-| `ollama`      | Local model runtime                                                      | Ollama, ROCm configuration by default  |
+| `ollama-*`    | Local model runtime selected through the active Compose profile          | Ollama: CPU, AMD ROCm, or NVIDIA       |
 
 ## Repository structure
 
 ```text
 .
+├── .github/
+│   └── workflows/
+│       └── ci.yml              # Automated tests, quality gates, and builds
 ├── apps/
-│   ├── api/                 # Authenticated application API
-│   ├── db/                  # PostgreSQL container image
-│   ├── llm-gateway/         # Provider abstraction and model operations
-│   ├── web/                 # React application
-│   └── worker/              # BullMQ consumers and reconcilers
+│   ├── api/                    # Authenticated application API
+│   ├── db/                     # PostgreSQL container image
+│   ├── llm-gateway/            # Provider abstraction and model operations
+│   ├── web/                    # React application
+│   └── worker/                 # BullMQ consumers, reconcilers, and tests
+├── docs/
+│   └── screenshots/            # Product screenshots used by the README
 ├── infra/
-│   ├── db/                  # Init scripts, migration runner, and baseline schema
-│   └── kong/                # Declarative proxy configuration
-├── scripts/                 # Auth bootstrap, owner creation, and license tooling
+│   ├── db/                     # Init scripts, migration runner, and schema
+│   └── kong/                   # Declarative proxy configuration
+├── scripts/                    # Auth bootstrap, owner creation, and license tools
 ├── docker-compose.yml
-└── package.json             # Repository-wide quality commands
+└── package.json                # Repository-wide development and CI commands
 ```
 
 ## Features
@@ -145,15 +168,54 @@ recoverable without requiring a live WebSocket connection.
 - Track request counts, failures, unknown usage, and average latency.
 - Aggregate usage by provider and model.
 
+## Quick start
+
+For the complete environment reference, hardware profiles, and troubleshooting
+notes, see [Local setup](#local-setup).
+
+```bash
+git clone https://github.com/nicolamaisa/base-lab.git
+cd base-lab
+cp .env.example .env
+```
+
+Configure the required values in `.env` and select one Ollama profile. Use
+`COMPOSE_PROFILES=cpu` for the most portable setup.
+
+```bash
+node scripts/add-auth-keys.mjs --update-env
+
+docker compose up -d --build
+docker compose run --rm db-migrate
+docker compose ps
+```
+
+Create the initial owner account:
+
+```bash
+npm run auth:create-owner -- \
+  --email owner@example.com \
+  --name "Local Owner"
+```
+
+Open `http://localhost:8000`, sign in, and add a local or remote model from
+**Settings**.
+
 ## Local setup
 
 ### Prerequisites
 
 - Git
 - Docker Engine with Docker Compose v2
-- Node.js 20 or newer and npm
+- Node.js 24 or newer and npm
 - Enough disk space for the selected Ollama models
-- For the default Ollama service: a Linux host with AMD ROCm-compatible devices
+- One of the following Ollama runtime configurations:
+
+| Profile  | Requirements                                                                       |
+| -------- | ---------------------------------------------------------------------------------- |
+| `cpu`    | No compatible GPU required                                                         |
+| `rocm`   | Linux host with an AMD ROCm-compatible GPU and access to `/dev/kfd` and `/dev/dri` |
+| `nvidia` | NVIDIA GPU, compatible drivers, and NVIDIA Container Toolkit                       |
 
 The application is exposed through Kong at
 [`http://localhost:8000`](http://localhost:8000).
@@ -161,8 +223,8 @@ The application is exposed through Kong at
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/nicolamaisa/api-base.git
-cd api-base
+git clone https://github.com/nicolamaisa/base-lab.git
+cd base-lab
 cp .env.example .env
 ```
 
@@ -186,7 +248,30 @@ PUBLIC_URL=http://localhost:8000
 
 KONG_PLUGINS_CORS_CONFIG_ORIGINS='["http://localhost:5173","https://localhost:5173","http://localhost:8000"]'
 KONG_PROXY_PORT=8000
+
+# Available values: cpu, rocm, nvidia
+COMPOSE_PROFILES=cpu
+
+# Used only by the AMD ROCm profile when required by the host GPU
+HSA_OVERRIDE_GFX_VERSION=11.0.0
 ```
+
+Choose exactly one value for `COMPOSE_PROFILES`:
+
+```dotenv
+COMPOSE_PROFILES=cpu
+```
+
+```dotenv
+COMPOSE_PROFILES=rocm
+```
+
+```dotenv
+COMPOSE_PROFILES=nvidia
+```
+
+Do not enable multiple Ollama profiles at the same time. All runtime variants
+share the internal `ollama` network alias used by the LLM gateway.
 
 Do not commit `.env` or any generated authentication material.
 
@@ -209,23 +294,47 @@ longer needed.
 
 ### 4. Choose the Ollama runtime
 
-The checked-in Compose configuration targets an AMD ROCm host:
+Base Lab provides three Docker Compose profiles for the local Ollama runtime.
 
-```yaml
-image: ollama/ollama:rocm
+#### CPU
+
+Use this profile when no supported GPU runtime is available:
+
+```dotenv
+COMPOSE_PROFILES=cpu
 ```
 
-For a CPU-only machine, change the `ollama` service to:
+#### AMD ROCm
 
-```yaml
-image: ollama/ollama:latest
+Use this profile on a compatible Linux host with an AMD GPU:
+
+```dotenv
+COMPOSE_PROFILES=rocm
 ```
 
-and remove its `devices` block and the AMD-specific `HSA_*` environment value.
-GPU passthrough is host-specific; adapt this service before starting the stack
-when using NVIDIA, macOS, Windows, or a remote Ollama instance.
+The ROCm profile requires access to the host devices `/dev/kfd` and `/dev/dri`.
+Some AMD GPUs may also require a different `HSA_OVERRIDE_GFX_VERSION` value.
+
+#### NVIDIA
+
+Use this profile on a host configured with NVIDIA Container Toolkit:
+
+```dotenv
+COMPOSE_PROFILES=nvidia
+```
+
+Only one Ollama profile should be active at a time.
+
+You can list the available profiles and validate the resolved configuration with:
+
+```bash
+docker compose config --profiles
+docker compose config --quiet
+```
 
 ### 5. Start the stack
+
+After selecting the profile in `.env`, start the complete stack:
 
 ```bash
 docker compose up -d --build
@@ -234,13 +343,36 @@ docker compose ps
 ```
 
 `db-migrate` is a one-shot service. An `Exited (0)` status after it completes is
-expected. The second command is safe to repeat because applied migration names
-are tracked in `public.schema_migrations`.
+expected. The migration command is safe to repeat because applied migration
+names are tracked in `public.schema_migrations`.
 
 Follow startup logs if a service does not become healthy:
 
 ```bash
 docker compose logs -f api worker llm-gateway auth proxy
+```
+
+To inspect the selected Ollama runtime, use the corresponding service name:
+
+```bash
+docker compose logs -f ollama-cpu
+docker compose logs -f ollama-rocm
+docker compose logs -f ollama-nvidia
+```
+
+Only the service belonging to the active profile will exist.
+
+Before changing Ollama profile, stop the existing stack and remove orphaned
+containers:
+
+```bash
+docker compose down --remove-orphans
+```
+
+Then change `COMPOSE_PROFILES` in `.env` and start the stack again:
+
+```bash
+docker compose up -d --build
 ```
 
 ### 6. Create the first owner
@@ -313,6 +445,33 @@ Browser code must call the authenticated API rather than the gateway directly.
 When started separately through `npm run llm-gateway:dev`, it listens on port
 `3003` by default.
 
+## Tests and quality gates
+
+The current automated test suite focuses on the worker, where Base Lab handles
+its most failure-sensitive asynchronous workflows.
+
+Covered behavior includes:
+
+- successful, failed, and already-claimed Base Run processing;
+- model-pull progress, completion, failed events, and interrupted streams;
+- successful and failed LLM invocation tracking;
+- usage metadata, token counts, latency, and provider error propagation.
+
+Run the worker test suite from the repository root:
+
+```bash
+npm test
+```
+
+Run the complete repository-wide CI pipeline:
+
+```bash
+npm run ci
+```
+
+The CI pipeline runs the worker tests and validates all applications through
+TypeScript checks, ESLint, Prettier, license checks, and production builds.
+
 ## Development workflow
 
 Docker builds install each service independently. To run repository-wide checks
@@ -320,19 +479,24 @@ on the host, install all local dependencies first:
 
 ```bash
 npm ci
-npm --prefix apps/api ci
-npm --prefix apps/worker ci
-npm --prefix apps/llm-gateway ci
-npm --prefix apps/web ci
+npm run install:all
 ```
 
-Run the quality gates:
+Run individual quality gates:
 
 ```bash
+npm test
 npm run typecheck
 npm run lint
 npm run format:check
 npm run license:check
+npm run build
+```
+
+Or run the complete pipeline used by GitHub Actions:
+
+```bash
+npm run ci
 ```
 
 Regenerate Kysely database types after a schema change while PostgreSQL is
